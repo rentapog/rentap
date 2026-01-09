@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard | RizzosAI</title>
+    <style>
+        body { background: #f5f7fa; color: #001f5b; font-family: Arial, sans-serif; }
+        .dashboard-container { max-width: 600px; margin: 60px auto; background: #fff; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,31,91,0.10); padding: 40px 30px; }
+        h2 { color: #e60000; text-align: center; }
+        .info { margin: 30px 0; font-size: 1.2em; }
+        .referral-link { background: #f0f0f0; border-radius: 8px; padding: 12px; margin: 18px 0; font-size: 1.1em; word-break: break-all; }
+        .referral-count { font-size: 1.3em; color: #0070ba; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <form action="/logout" method="get" style="margin-bottom:0;">
+            <button style="background:#e60000;color:#fff;border:none;border-radius:6px;padding:10px 24px;font-size:1em;font-weight:bold;cursor:pointer;float:right;" type="submit">Logout</button>
+        </form>
+        <h2>Welcome, {{ user.username }}!</h2>
+        <div class="info">
+            <strong>Your affiliate link:</strong>
+            <div class="referral-link">https://seobrain.com/ref/{{ user.username }}</div>
+        </div>
+        <div class="info">
+            <strong>Set up your PayPal for payouts:</strong>
+            <ol>
+                <li>Go to <b>Settings</b> in your dashboard.</li>
+                <li>Find <b>Payout Method</b> and enter your PayPal email.</li>
+                <li>Click <b>Save</b>. You’re now ready to receive payments!</li>
+            </ol>
+        </div>
+        <div class="info">
+            <strong>Your current package:</strong> {{ user.package_id or 'Starter' }}
+        </div>
+        <div class="info">
+            <strong>Upgrade your package:</strong> Visit the <a href="/packages">Packages</a> page to see all options and upgrade anytime.
+        </div>
+    </div>
+</body>
+</html>
