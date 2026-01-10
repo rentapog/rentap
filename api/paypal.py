@@ -35,3 +35,4 @@ def create_paypal_order(amount, description):
     resp = requests.post(f'{PAYPAL_API_BASE}/v2/checkout/orders', json=data, headers=headers)
     resp.raise_for_status()
     return resp.json()
+

@@ -12,6 +12,17 @@ from .paypal import create_paypal_order
 
 bp = Blueprint('main', __name__)
 
+# Route for /affiliate_program to render the affiliate program page
+@bp.route('/affiliate_program')
+def affiliate_program():
+    return render_template('affiliate_program.html')
+
+
+# Route for /hosting to render the new hosting packages page
+@bp.route('/hosting')
+def hosting():
+    return render_template('hosting_packages.html')
+
 # Route for /payment to render the payment page
 @bp.route('/payment')
 def payment():
@@ -136,11 +147,18 @@ def send_resend_email(to_email, subject, body_text, from_email="noreply@admin.se
         print(f"Resend email failed: {e}")
         return False
 
+
 # Root route for health check or homepage
 @bp.route('/')
 def index():
     from flask import render_template
     return render_template('packages.html')
+
+# Home page route
+@bp.route('/home')
+def home():
+    from flask import render_template
+    return render_template('home.html')
 
 # PayPal Webhook endpoint
 @bp.route('/webhook/paypal', methods=['POST'])
