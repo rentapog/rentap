@@ -1,21 +1,25 @@
-from flask import Flask, render_template
 import os
+from flask import Flask, render_template
 from dotenv import load_dotenv
+from .extensions import db
 
-load_dotenv()
-app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL', 'postgresql://user:password@localhost:5432/seobrain_db')
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-from flask_sqlalchemy import SQLAlchemy
-db = SQLAlchemy(app)
+def create_app():
+    load_dotenv()
+    app = Flask(__name__)
+    app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL', 'sqlite:///local_seobrain.db')
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    db.init_app(app)
 
-from .routes import bp  # Import the Blueprint
-app.register_blueprint(bp)  # Register the Blueprint
+    from .main_routes import bp
+    app.register_blueprint(bp)
 
-@app.route('/')
-def index():
-    paypal_client_id = os.getenv('PAYPAL_CLIENT_ID')
-    return render_template('packages.html', paypal_client_id=paypal_client_id)
+    @app.route('/')
+    def index():
+        paypal_client_id = os.getenv('PAYPAL_CLIENT_ID')
+        return render_template('packages.html', paypal_client_id=paypal_client_id)
+
+    return app
 
 if __name__ == '__main__':
+    app = create_app()
     app.run(debug=True)
